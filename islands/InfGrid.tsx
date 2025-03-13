@@ -1,6 +1,12 @@
 import { CELL_GAP, CELL_SIZE } from "../global/constants.ts";
 import InfCell from "./InfCell.tsx";
-import { checkWin, currentTurn, extendGrid, firstTurn, grid } from "../global/utils.ts";
+import {
+  checkWin,
+  currentTurn,
+  extendGrid,
+  firstTurn,
+  grid,
+} from "../global/utils.ts";
 import { useEffect } from "preact/hooks";
 import { Direction } from "../global/types.ts";
 import { ComponentChildren } from "preact";

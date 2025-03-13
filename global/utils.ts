@@ -25,28 +25,28 @@ export function updateValidCells(x: number, y: number) {
   if (grid.value.cells.get(`${x - 1}-${y}`)?.value === CellValue.Empty) {
     validCells.value.push(`${x - 1}-${y}`);
   } else {
-    console.log(`left has ${grid.value.cells.get(`${x - 1}-${y}`)?.value}`)
+    console.log(`left has ${grid.value.cells.get(`${x - 1}-${y}`)?.value}`);
   }
 
   // right
   if (grid.value.cells.get(`${x + 1}-${y}`)?.value === CellValue.Empty) {
     validCells.value.push(`${x + 1}-${y}`);
   } else {
-    console.log(`right has ${grid.value.cells.get(`${x + 1}-${y}`)?.value}`)
+    console.log(`right has ${grid.value.cells.get(`${x + 1}-${y}`)?.value}`);
   }
 
   // up
   if (grid.value.cells.get(`${x}-${y - 1}`)?.value === CellValue.Empty) {
     validCells.value.push(`${x}-${y - 1}`);
   } else {
-    console.log(`up has ${grid.value.cells.get(`${x}-${y - 1}`)?.value}`)
+    console.log(`up has ${grid.value.cells.get(`${x}-${y - 1}`)?.value}`);
   }
 
   // down
   if (grid.value.cells.get(`${x}-${y + 1}`)?.value === CellValue.Empty) {
     validCells.value.push(`${x}-${y + 1}`);
   } else {
-    console.log(`down has ${grid.value.cells.get(`${x}-${y + 1}`)?.value}`)
+    console.log(`down has ${grid.value.cells.get(`${x}-${y + 1}`)?.value}`);
   }
 
   console.log(validCells.value);
