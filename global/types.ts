@@ -29,7 +29,7 @@ export interface Cell {
 }
 
 export interface Grid {
-  cells: Map<[number, number], Cell>;
+  cells: Map<string, Cell>;
   minX: number;
   maxX: number;
   minY: number;

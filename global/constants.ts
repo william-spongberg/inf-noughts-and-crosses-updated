@@ -14,8 +14,8 @@ export const DEFAULT_GRID: Grid = {
       (_, y) =>
         Array.from(
           { length: DEFAULT_GRID_SIZE },
-          (_, x): [[number, number], Cell] => [
-            [x, y],
+          (_, x): [string, Cell] => [
+            `${x}-${y}`,
             { x, y, value: CellValue.Empty },
           ],
         ),

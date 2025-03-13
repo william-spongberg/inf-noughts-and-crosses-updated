@@ -29,9 +29,9 @@ export function Page({
   children,
 }: PageProps) {
   return (
-    <div class={`flex flex-col min-h-screen ${colour}`}>
+    <div class={`flex flex-col min-h-screen min-w-full ${colour}`}>
       <div
-        class={`flex-grow flex items-center justify-center mb-9 px-4 sm:px-8 pt-8 pb-8`}
+      class={`flex-grow flex items-center justify-center mb-9 px-4 sm:px-8 pt-8 pb-8 w-full`}
       >
         {children}
       </div>
@@ -140,8 +140,9 @@ export function Footer({
 }: FooterProps) {
   return (
     <>
+    <div class="min-w-max">
       <footer
-        class={`flex flex-col items-center w-auto ${colour} ${textColour}`}
+        class={`flex flex-col items-center ${colour} ${textColour}`}
       >
         <div class="flex flex-col justify-center items-center sm:p-4 md:p-2 pb-16 md:pb-2">
           {isBeta
@@ -170,6 +171,7 @@ export function Footer({
           </p>
         </div>
       </footer>
+      </div>
     </>
   );
 }

@@ -1,43 +1,43 @@
 import { CELL_SIZE } from "../global/constants.ts";
 import { Cell, CellValue, Turn } from "../global/types.ts";
-import { useState } from "preact/hooks";
-import { currentCell, currentTurn } from "../global/utils.ts";
+import { currentCell, currentTurn, changeTurn, firstTurn, grid, updateValidCells, validCells } from "../global/utils.ts";
 
-const WHITE = "#FFFFFF";
-
-export default function InfCell({ value, x, y }: Cell) {
-  // TODO: change to useSignal?
-  const [symbol, setSymbol] = useState("");
-
+export default function InfCell({value, x, y}: Cell) {
   const handleClick = () => {
-    if (symbol === "") {
-      // update cell, switch turns
-      setSymbol(() => {
-        if (currentTurn.value === Turn.Nought) {
-          currentTurn.value = Turn.Cross;
-          currentCell.value = { value: CellValue.Nought, x, y };
-          return "O";
-        } else {
-          currentTurn.value = Turn.Nought;
-          currentCell.value = { value: CellValue.Cross, x, y };
-          return "X";
-        }
-      });
+    if (value === CellValue.Empty && (validCells.value.includes(`${x}-${y}`) || firstTurn.value)) {
+      // update globals
+      if (currentTurn.value === Turn.Nought) {
+        currentCell.value = { value: CellValue.Nought, x, y };
+        grid.value.cells.set(`${x}-${y}`, currentCell.value);
+        updateValidCells(x,y);
+      } else {
+        currentCell.value = { value: CellValue.Cross, x, y };
+        grid.value.cells.set(`${x}-${y}`, currentCell.value);
+        updateValidCells(x,y);
+      }
+      firstTurn.value = false;
+      changeTurn();
     }
+  };
+
+  const displaySymbol = () => {
+    if (value === CellValue.Nought) return "O";
+    if (value === CellValue.Cross) return "X";
+    return "";
   };
 
   return (
     <button
       type="button"
+      className={`bg-white ${validCells.value.includes(`${x}-${y}`) || firstTurn.value ? 'hover:bg-slate-300' : ''}`}
       style={{
-        backgroundColor: WHITE,
-        width: `${CELL_SIZE}px`,
-        height: `${CELL_SIZE}px`,
+      width: `${CELL_SIZE}px`,
+      height: `${CELL_SIZE}px`,
       }}
       onClick={handleClick}
     >
       <text class="text-5xl">
-        {symbol}
+      {displaySymbol()}
       </text>
     </button>
   );
