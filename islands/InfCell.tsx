@@ -40,10 +40,10 @@ export default function InfCell({ value, x, y }: Cell) {
   return (
     <button
       type="button"
-      className={`bg-white ${
+      className={`${
         validCells.value.includes(`${x}-${y}`) || firstTurn.value
-          ? "hover:bg-slate-300"
-          : ""
+          ? "hover:bg-slate-300 bg-slate-200"
+          : "bg-white"
       }`}
       style={{
         width: `${CELL_SIZE}px`,

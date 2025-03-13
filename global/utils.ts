@@ -101,10 +101,15 @@ export function extendGrid(dir: Direction) {
   updateValidCells(currentCell.value.x, currentCell.value.y);
 }
 
-// check if win has occured
-export function checkWin(): boolean {
+// check if game over
+export function checkGameOver(): boolean {
   const { x: currX, y: currY, value: currValue } = currentCell.value;
   console.log(`cell at ${currX}, ${currY} set to ${currValue}`);
+
+  // check available moves, if none game over
+  if (validCells.value.length === 0) {
+    return true;
+  }
 
   // count matching cells in a direction
   const countInDirection = (dirX: number, dirY: number): number => {

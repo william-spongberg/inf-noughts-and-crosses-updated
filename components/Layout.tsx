@@ -29,9 +29,9 @@ export function Page({
   children,
 }: PageProps) {
   return (
-    <div class={`flex flex-col min-h-screen min-w-full ${colour}`}>
+    <div class={`flex min-h-screen min-w-max flex-grow ${colour}`}>
       <div
-        class={`flex-grow flex items-center justify-center mb-9 px-4 sm:px-8 pt-8 pb-8 w-full`}
+        class={`flex-grow flex items-center justify-center mb-9 px-4 sm:px-8 pt-8 pb-8`}
       >
         {children}
       </div>
@@ -49,14 +49,14 @@ interface ElementProps {
 
 export function Element({
   title = "",
-  colour = ELEMENT_COLOUR,
+  colour = BACKGROUND_COLOUR,
   textColour = TEXT_COLOUR,
   size = ELEMENT_SIZE,
   children,
 }: ElementProps) {
   return (
     <div
-      class={`lg:px-16 sm:px-8 px-0 lg:py-16 sm:py-8 py-2 mx-auto my-auto ${colour} rounded-2xl w-full ${size}`}
+      class={`lg:px-16 sm:px-8 px-0 lg:py-16 sm:py-8 py-4 mx-auto my-auto ${colour} rounded-2xl w-full ${size}`}
     >
       <Center>
         <Text.Title textColour={textColour}>{title}</Text.Title>
@@ -139,39 +139,26 @@ export function Footer({
   isBeta = false,
 }: FooterProps) {
   return (
-    <>
-      <div class="min-w-max">
-        <footer
-          class={`flex flex-col items-center ${colour} ${textColour}`}
-        >
-          <div class="flex flex-col justify-center items-center sm:p-4 md:p-2 pb-16 md:pb-2">
-            {isBeta
-              ? (
-                <>
-                  <p class="text-[#748CAB] mb-0">
-                    This website is in beta.
-                  </p>
-                  <div class="hidden md:block">&nbsp;</div>
-                </>
-              )
-              : null}
-            <p>
-              <div class="gap-2 pb-2 flex">
-                <Button href="mailto:william@spongberg.dev">
-                  <Icons.Email />
-                </Button>
-                <Button href="https://www.linkedin.com/in/william-spongberg/">
-                  <Icons.LinkedIn />
-                </Button>
-                <Button href="https://github.com/william-spongberg">
-                  <Icons.GitHub />
-                </Button>
-              </div>
-              &copy; {author} {new Date().getFullYear()}. All rights reserved.
-            </p>
-          </div>
-        </footer>
-      </div>
-    </>
+    <div class="min-w-max">
+      <footer
+        class={`flex flex-col items-center ${colour} ${textColour}`}
+      >
+        <div class="flex flex-col justify-center items-center sm:p-4 md:p-2 pb-16 md:pb-2">
+          {isBeta
+            ? (
+              <>
+                <p class="text-[#748CAB] mb-0">
+                  This website is in beta.
+                </p>
+                <div class="hidden md:block">&nbsp;</div>
+              </>
+            )
+            : null}
+          <p>
+            &copy; {author} {new Date().getFullYear()}. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </div>
   );
 }

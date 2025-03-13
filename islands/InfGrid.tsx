@@ -1,24 +1,40 @@
 import { CELL_GAP, CELL_SIZE } from "../global/constants.ts";
 import InfCell from "./InfCell.tsx";
 import {
-  checkWin,
+  checkGameOver,
   currentTurn,
   extendGrid,
   firstTurn,
   grid,
 } from "../global/utils.ts";
-import { useEffect } from "preact/hooks";
-import { Direction } from "../global/types.ts";
+import { useEffect, useMemo } from "preact/hooks";
+import { Direction, Turn } from "../global/types.ts";
 import { ComponentChildren } from "preact";
+import * as Text from "../components/Text.tsx";
+import * as Layout from "../components/Layout.tsx";
+import { signal } from "@preact/signals";
 
 export default function InfGrid() {
+  // TODO: is this the best way of doing this?
+  const gameOver = useMemo(() => signal(false), []);
+
   // check for win on new turn
   useEffect(() => {
     if (!firstTurn.value) {
-      console.log("win: ", checkWin());
+      gameOver.value = checkGameOver();
+      console.log("win: ", gameOver.value);
     }
   }, [currentTurn.value]);
 
+  return (
+    <>
+      {gameOver.value ? GameOverScreen() : null}
+      {PlayScreen()}
+    </>
+  );
+}
+
+function PlayScreen() {
   const extend = (dir: Direction) => {
     extendGrid(dir);
   };
@@ -90,11 +106,36 @@ function DirButton(
     <div
       class={`${
         positionStyles[direction]
-      } bg-slate-200 hover:bg-slate-200 rounded-xl px-3 py-2 m-4`}
+      } bg-slate-200 hover:bg-slate-400 rounded-xl px-3 py-2 m-4 text-5xl`}
     >
       <button type="button" onClick={onClick} class="w-full h-full">
         {children}
       </button>
     </div>
+  );
+}
+
+function GameOverScreen() {
+  return (
+    <>
+      <div class="z-10">
+        <Layout.Element title="Game Over!">
+          <Text.Heading>
+            {currentTurn.value === Turn.Nought
+              ? "Crosses Win!"
+              : "Noughts Win!"}
+          </Text.Heading>
+          <br />
+          <br />
+          <button
+            type="button"
+            onClick={() => globalThis.location.reload()}
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Restart Game
+          </button>
+        </Layout.Element>
+      </div>
+    </>
   );
 }
