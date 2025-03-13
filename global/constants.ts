@@ -9,13 +9,20 @@ export const DEFAULT_CELL: Cell = { x: 0, y: 0, value: CellValue.Empty };
 export const DEFAULT_GRID_SIZE = 3;
 export const DEFAULT_GRID: Grid = {
   cells: new Map(
-    Array.from({ length: DEFAULT_GRID_SIZE }, (_, y) =>
-      Array.from({ length: DEFAULT_GRID_SIZE }, (_, x): [[number, number], Cell] => [
-        [x, y],
-        { x, y, value: CellValue.Empty },
-      ]),
+    Array.from(
+      { length: DEFAULT_GRID_SIZE },
+      (_, y) =>
+        Array.from(
+          { length: DEFAULT_GRID_SIZE },
+          (_, x): [[number, number], Cell] => [
+            [x, y],
+            { x, y, value: CellValue.Empty },
+          ],
+        ),
     ).flat(),
   ),
-  rows: DEFAULT_GRID_SIZE,
-  cols: DEFAULT_GRID_SIZE,
+  minX: 0,
+  maxX: DEFAULT_GRID_SIZE,
+  minY: 0,
+  maxY: DEFAULT_GRID_SIZE,
 };

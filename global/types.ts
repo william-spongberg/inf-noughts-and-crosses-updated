@@ -3,12 +3,19 @@ import { ComponentChildren } from "preact";
 export enum CellValue {
   Empty = 0,
   Nought,
-  Cross
+  Cross,
 }
 
 export enum Turn {
   Nought = 0,
   Cross,
+}
+
+export enum Direction {
+  Up = 0,
+  Down,
+  Left,
+  Right,
 }
 
 export interface ChildrenProps {
@@ -22,7 +29,9 @@ export interface Cell {
 }
 
 export interface Grid {
-  cells: Map<[number, number], Cell>
-  rows: number;
-  cols: number;
+  cells: Map<[number, number], Cell>;
+  minX: number;
+  maxX: number;
+  minY: number;
+  maxY: number;
 }
