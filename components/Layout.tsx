@@ -29,9 +29,9 @@ export function Page({
   children,
 }: PageProps) {
   return (
-    <div class={`flex min-h-screen min-w-max flex-grow ${colour}`}>
+    <div class={`flex min-h-screen min-w-max flex-grow ${colour} justify-center items-center`}>
       <div
-        class={`flex-grow flex items-center justify-center mb-9 px-4 sm:px-8 pt-8 pb-8`}
+      class={`flex-col flex items-center justify-center mb-9 px-4 sm:px-8 pt-8 pb-8`}
       >
         {children}
       </div>
