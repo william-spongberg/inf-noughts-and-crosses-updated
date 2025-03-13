@@ -118,7 +118,7 @@ function DirButton(
 function GameOverScreen() {
   return (
     <>
-      <div class="z-10">
+      <div class="p-10">
         <Layout.Element title="Game Over!">
           <Text.Heading>
             {currentTurn.value === Turn.Nought
