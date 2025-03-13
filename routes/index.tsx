@@ -1,5 +1,6 @@
 import * as Layout from "../components/Layout.tsx";
 import * as Text from "../components/Text.tsx";
+import InfGrid from "../islands/InfGrid.tsx";
 import { Head } from "$fresh/runtime.ts";
 
 export default function Home() {
@@ -10,9 +11,7 @@ export default function Home() {
       </Head>
 
       <Layout.Page>
-        <Text.Title>
-          Hi!
-        </Text.Title>
+        <InfGrid />
       </Layout.Page>
     </>
   );
