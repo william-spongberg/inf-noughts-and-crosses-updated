@@ -3,7 +3,12 @@ import { ComponentChildren } from "preact";
 export enum CellValue {
   Empty = 0,
   Nought,
-  Cross
+  Cross,
+}
+
+export enum Turn {
+  Nought = 0,
+  Cross,
 }
 
 export interface ChildrenProps {

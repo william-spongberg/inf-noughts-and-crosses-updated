@@ -1,11 +1,12 @@
 import {
+  CELL_GAP,
+  CELL_SIZE,
   INITIAL_GRID,
   INITIAL_GRID_SIZE,
-  CELL_SIZE,
-  CELL_GAP
 } from "../global/constants.ts";
 import { Cell } from "../global/types.ts";
 import InfCell from "./InfCell.tsx";
+import { currentTurn } from "../global/utils.ts";
 
 export default function InfGrid() {
   let grid: Cell[][] = INITIAL_GRID;

@@ -1,12 +1,12 @@
 import { CELL_SIZE } from "../global/constants.ts";
-import { Cell, CellValue } from "../global/types.ts";
+import { Cell, CellValue, Turn } from "../global/types.ts";
 import { useEffect, useState } from "preact/hooks";
+import { currentTurn } from "../global/utils.ts";
 
 const WHITE = "#FFFFFF";
-const BLACK = "#000000";
 
 export default function InfCell({ value, x, y }: Cell) {
-  const [colour, setColour] = useState(WHITE);
+  // TODO: change to useSignal?
   const [symbol, setSymbol] = useState("");
 
   useEffect(() => {
@@ -23,22 +23,20 @@ export default function InfCell({ value, x, y }: Cell) {
     }
   }, [value]);
 
-  useEffect(() => {
-    console.log("Updating cell!");
-  }, [colour]);
-
   const handleClick = () => {
-    // testing
-    setSymbol((prevSymbol) => {
-      switch (prevSymbol) {
-        case "O":
-          return "X";
-        case "X":
-          return "";
-        default:
-          return "O";
-      }
-    });
+    if (symbol === "") {
+      // update cell, switch turns
+      setSymbol(() => {
+        switch (currentTurn.value) {
+          case Turn.Nought:
+            currentTurn.value = Turn.Cross;
+            return "O";
+          case Turn.Cross:
+            currentTurn.value = Turn.Nought;
+            return "X";
+        }
+      });
+    }
     console.log(`button at ${x}, ${y} clicked`);
   };
 
@@ -46,7 +44,7 @@ export default function InfCell({ value, x, y }: Cell) {
     <button
       type="button"
       style={{
-        backgroundColor: colour,
+        backgroundColor: WHITE,
         width: `${CELL_SIZE}px`,
         height: `${CELL_SIZE}px`,
       }}
