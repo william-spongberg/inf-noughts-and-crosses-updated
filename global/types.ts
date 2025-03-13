@@ -3,7 +3,7 @@ import { ComponentChildren } from "preact";
 export enum CellValue {
   Empty = 0,
   Nought,
-  Cross,
+  Cross
 }
 
 export enum Turn {
@@ -19,5 +19,10 @@ export interface Cell {
   value: CellValue;
   x: number;
   y: number;
-  // add more information? hold surrounding cells for easier computation?
+}
+
+export interface Grid {
+  cells: Map<[number, number], Cell>
+  rows: number;
+  cols: number;
 }
