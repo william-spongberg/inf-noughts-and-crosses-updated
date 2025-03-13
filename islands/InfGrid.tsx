@@ -1,7 +1,8 @@
 import {
   INITIAL_GRID,
   INITIAL_GRID_SIZE,
-  PIXEL_SIZE,
+  CELL_SIZE,
+  CELL_GAP
 } from "../global/constants.ts";
 import { Cell } from "../global/types.ts";
 import InfCell from "./InfCell.tsx";
@@ -15,9 +16,9 @@ export default function InfGrid() {
         class="scale-75 md:scale-90 lg:scale-100 xl:scale-125"
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${INITIAL_GRID_SIZE}, ${PIXEL_SIZE}px)`,
+          gridTemplateColumns: `repeat(${INITIAL_GRID_SIZE}, ${CELL_SIZE}px)`,
           width: "100%",
-          gap: "4px",
+          gap: `${CELL_GAP}px`,
         }}
       >
         {grid.flat().map((cell) => (
