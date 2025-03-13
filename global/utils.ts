@@ -106,10 +106,11 @@ export function checkGameOver(): boolean {
   const { x: currX, y: currY, value: currValue } = currentCell.value;
   console.log(`cell at ${currX}, ${currY} set to ${currValue}`);
 
+  // TODO: doesn't currently check for no moves and trapped in a circle of cells
   // check available moves, if none game over
-  if (validCells.value.length === 0) {
-    return true;
-  }
+  // if (validCells.value.length === 0) {
+  //   return true;
+  // }
 
   // count matching cells in a direction
   const countInDirection = (dirX: number, dirY: number): number => {
