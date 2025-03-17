@@ -19,6 +19,10 @@ export default function Home() {
             Rules
           </Text.Heading>
         </Button>
+        <br/>
+        <Text.Small>
+          Note: This website is not currently optimised for mobile.
+        </Text.Small>
       </Layout.Page>
     </>
   );
