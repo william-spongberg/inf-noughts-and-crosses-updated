@@ -13,9 +13,9 @@ export interface ButtonProps {
 
 export default function Button({
   href,
-  backgroundColour = "bg-gray-100",
+  backgroundColour = "bg-slate-500",
   textColour = "text-black",
-  hoverBackgroundColour = "hover:bg-[#F0EBD8]",
+  hoverBackgroundColour = "hover:bg-slate-700",
   hoverTextColour = "hover:text-black",
   target = "_self",
   rel = "",

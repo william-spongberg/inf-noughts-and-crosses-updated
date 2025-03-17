@@ -51,7 +51,7 @@ interface ElementProps {
 
 export function Element({
   title = "",
-  colour = BACKGROUND_COLOUR,
+  colour = ELEMENT_COLOUR,
   textColour = TEXT_COLOUR,
   size = ELEMENT_SIZE,
   children,
@@ -112,13 +112,7 @@ export function Header({
           </Text.Title>
         )}
         <div class="ml-auto gap-2 flex">
-          <Button href="mailto:william@spongberg.dev">
-            <Icons.Email />
-          </Button>
-          <Button href="https://www.linkedin.com/in/william-spongberg/">
-            <Icons.LinkedIn />
-          </Button>
-          <Button href="https://github.com/william-spongberg">
+          <Button href="https://github.com/william-spongberg/inf-noughts-and-crosses" backgroundColour="bg-white" hoverBackgroundColour="hover:bg-gray-200">
             <Icons.GitHub />
           </Button>
         </div>

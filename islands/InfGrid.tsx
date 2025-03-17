@@ -13,6 +13,7 @@ import { ComponentChildren } from "preact";
 import * as Text from "../components/Text.tsx";
 import * as Layout from "../components/Layout.tsx";
 import { signal } from "@preact/signals";
+import Button from "../components/Button.tsx";
 
 export default function InfGrid() {
   // TODO: is this the best way of doing this?
@@ -89,24 +90,16 @@ function PlayScreen() {
   );
 }
 
+
+
 function CurrentTurn() {
-  if (currentTurn.value == Turn.Nought) {
-    return (
-      <div class="bg-slate-800 fixed bottom-10 left-10 rounded-xl">
-        <Text.Heading>
-          O's Turn
-        </Text.Heading>
-      </div>
-    );
-  } else {
-    return (
-      <div class="bg-slate-800 fixed bottom-10 left-10 rounded-xl">
-        <Text.Heading>
-          X's Turn
-        </Text.Heading>
-      </div>
-    );
-  }
+  return (
+    <div class="bg-slate-800 fixed bottom-10 left-10 rounded-md">
+      <Text.Heading>
+        {currentTurn.value == Turn.Nought ? "O's Turn" : "X's Turn"}
+      </Text.Heading>
+    </div>
+  );
 }
 
 function DirButton(

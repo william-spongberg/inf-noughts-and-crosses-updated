@@ -70,3 +70,11 @@ export function Link({ textColour = TEXT_COLOUR, children, href }: LinkProps) {
     </a>
   );
 }
+
+export function List({ textColour = TEXT_COLOUR, children }: TextProps) {
+  return (
+    <ul class={`list-disc list-inside ${textColour} text-left`}>
+      {children}
+    </ul>
+  );
+}
