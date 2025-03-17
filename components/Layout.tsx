@@ -51,7 +51,7 @@ interface ElementProps {
 
 export function Element({
   title = "",
-  colour = ELEMENT_COLOUR,
+  colour = BACKGROUND_COLOUR,
   textColour = TEXT_COLOUR,
   size = ELEMENT_SIZE,
   children,
