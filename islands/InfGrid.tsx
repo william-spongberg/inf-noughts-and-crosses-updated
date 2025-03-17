@@ -63,6 +63,7 @@ function PlayScreen() {
             ))}
         </div>
       </div>
+      <CurrentTurn />
       <DirButton
         direction={Direction.Left}
         onClick={() => extend(Direction.Left)}
@@ -86,6 +87,26 @@ function PlayScreen() {
       </DirButton>
     </>
   );
+}
+
+function CurrentTurn() {
+  if (currentTurn.value == Turn.Nought) {
+    return (
+      <div class="bg-slate-800 fixed bottom-10 left-10 rounded-xl">
+        <Text.Heading>
+          O's Turn
+        </Text.Heading>
+      </div>
+    );
+  } else {
+    return (
+      <div class="bg-slate-800 fixed bottom-10 left-10 rounded-xl">
+        <Text.Heading>
+          X's Turn
+        </Text.Heading>
+      </div>
+    );
+  }
 }
 
 function DirButton(
