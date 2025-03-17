@@ -1,16 +1,9 @@
-# Fresh project
+# Infinite Noughts and Crosses
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
+Custom Noughts and Crosses game I created to make the game more strategic and fun.
 
-### Usage
+## Rules
 
-Make sure to install Deno: https://deno.land/manual/getting_started/installation
-
-Then start the project:
-
-```
-deno task start
-```
-
-This will watch the project directory and restart as necessary.
+- Every move must be vertically or horizontally adjacent to the last one
+- You can sacrifice a turn to extend the board by a row or column in any direction
+- Otherwise usual rules apply, 3 in a row wins!
