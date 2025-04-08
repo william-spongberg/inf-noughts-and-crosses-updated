@@ -177,7 +177,7 @@ function PlayScreen() {
 
 function CurrentTurn() {
   return (
-    <div class="bg-slate-800 fixed bottom-10 left-10 rounded-md">
+    <div class="bg-slate-800 fixed bottom-0 left-0 m-4 rounded-md">
       <Text.Heading>
         {currentTurn.value == Turn.Nought ? "O's Turn" : "X's Turn"}
       </Text.Heading>
@@ -207,7 +207,7 @@ function DirButton(
     <div
       class={`${
         positionStyles[direction]
-      } bg-white hover:bg-slate-400 rounded-xl px-3 py-2 m-4 text-5xl`}
+      } bg-white hover:bg-slate-400 rounded-xl px-3 py-2 m-4 text-5xl sm:scale-100 scale-75`}
     >
       <button type="button" onClick={onClick} class="w-full h-full">
         {children}

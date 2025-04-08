@@ -1,7 +1,6 @@
 import Button from "../components/Button.tsx";
 import * as Layout from "../components/Layout.tsx";
 import * as Text from "../components/Text.tsx";
-import InfGrid from "../islands/InfGrid.tsx";
 
 export default function Home() {
   return (
@@ -20,9 +19,6 @@ export default function Home() {
           </Text.Heading>
         </Button>
         <br/>
-        <Text.Small>
-          Note: This website is not currently optimised for mobile.
-        </Text.Small>
       </Layout.Page>
     </>
   );

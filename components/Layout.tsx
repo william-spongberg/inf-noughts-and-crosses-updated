@@ -30,7 +30,7 @@ export function Page({
 }: PageProps) {
   return (
     <div
-      class={`flex min-h-screen min-w-max flex-grow ${colour} justify-center items-center`}
+      class={`flex min-h-screen flex-grow ${colour} justify-center items-center`}
     >
       <div
         class={`flex-col flex items-center justify-center mb-9 px-4 sm:px-8 pt-8 pb-8`}
@@ -104,7 +104,7 @@ export function Header({
   return (
     <>
       <header
-        className={`flex items-center justify-start ${colour} pb-2 px-4`}
+        className={`flex items-center justify-start ${colour} pb-2 px-4 pt-4`}
       >
         {title && (
           <Text.Title textColour={textColour}>
@@ -143,7 +143,7 @@ export function Footer({
       <footer
         class={`flex flex-col items-center ${colour} ${textColour}`}
       >
-        <div class="flex flex-col justify-center items-center sm:p-4 md:p-2 pb-16 md:pb-2">
+        <div class="flex flex-col justify-center items-center p-4">
           {isBeta
             ? (
               <>

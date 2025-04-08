@@ -19,7 +19,7 @@ export default function Play() {
 
 function HomeButton() {
   return (
-    <div class="fixed bottom-10 right-8">
+    <div className="fixed bottom-0 right-0 scale-90 sm:scale-100 m-2">
       <Button href="/">
         <Text.SubHeading>
           Home
@@ -31,7 +31,7 @@ function HomeButton() {
 
 function RulesButton() {
   return (
-    <div class="fixed bottom-10 right-32">
+    <div className="fixed bottom-0 right-20 sm:right-24 scale-90 sm:scale-100 m-2">
       <Button href="/rules">
         <Text.SubHeading>
           Rules
