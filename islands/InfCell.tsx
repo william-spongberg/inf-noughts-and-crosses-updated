@@ -43,7 +43,7 @@ export default function InfCell({ value, x, y }: Cell) {
       className={`${
         validCells.value.includes(`${x}-${y}`) || firstTurn.value
           ? "hover:bg-slate-300 bg-slate-200"
-          : "bg-white"
+          : value === CellValue.Nought ? "bg-blue-200" : value === CellValue.Cross ? "bg-red-200" : "bg-white"
       }`}
       style={{
         width: `${CELL_SIZE}px`,
@@ -51,9 +51,15 @@ export default function InfCell({ value, x, y }: Cell) {
       }}
       onClick={handleClick}
     >
-      <text class="text-5xl">
-        {displaySymbol()}
-      </text>
+      { value === CellValue.Nought ? (
+        <text class="text-5xl text-blue-800 bg-blue-200">
+          {displaySymbol()}
+        </text>
+      ) : (
+        <text class="text-5xl text-red-800 bg-red-200">
+          {displaySymbol()}
+        </text>
+      )}
     </button>
   );
 }
