@@ -40,10 +40,15 @@ export default function InfCell({ value, x, y }: Cell) {
   return (
     <button
       type="button"
+      disabled={!(validCells.value.includes(`${x}-${y}`) || firstTurn.value)}
       className={`${
         validCells.value.includes(`${x}-${y}`) || firstTurn.value
           ? "hover:bg-orange-200 bg-orange-100"
-          : value === CellValue.Nought ? "bg-blue-200" : value === CellValue.Cross ? "bg-red-200" : "bg-white"
+          : value === CellValue.Nought
+          ? "bg-blue-200"
+          : value === CellValue.Cross
+          ? "bg-red-200"
+          : "bg-white"
       }`}
       style={{
         width: `${CELL_SIZE}px`,
@@ -51,15 +56,17 @@ export default function InfCell({ value, x, y }: Cell) {
       }}
       onClick={handleClick}
     >
-      { value === CellValue.Nought ? (
-        <text class="text-5xl text-blue-800 bg-blue-200">
-          {displaySymbol()}
-        </text>
-      ) : (
-        <text class="text-5xl text-red-800 bg-red-200">
-          {displaySymbol()}
-        </text>
-      )}
+      {value === CellValue.Nought
+        ? (
+          <text class="text-5xl text-blue-800 bg-blue-200">
+            {displaySymbol()}
+          </text>
+        )
+        : (
+          <text class="text-5xl text-red-800 bg-red-200">
+            {displaySymbol()}
+          </text>
+        )}
     </button>
   );
 }
