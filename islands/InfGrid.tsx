@@ -223,12 +223,12 @@ function CurrentTurn() {
         {currentTurn.value == Turn.Nought
           ? (
             <>
-              <div class="text-red-400 inline">O's</div> Turn
+              <div class="text-blue-400 inline">O's</div> Turn
             </>
           )
           : (
             <>
-              <div class="text-blue-400 inline">X's</div> Turn
+              <div class="text-red-400 inline">X's</div> Turn
             </>
           )}
         {usingBankedTurn.value && (
