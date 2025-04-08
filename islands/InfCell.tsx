@@ -42,7 +42,7 @@ export default function InfCell({ value, x, y }: Cell) {
       type="button"
       className={`${
         validCells.value.includes(`${x}-${y}`) || firstTurn.value
-          ? "hover:bg-slate-300 bg-slate-200"
+          ? "hover:bg-orange-200 bg-orange-100"
           : value === CellValue.Nought ? "bg-blue-200" : value === CellValue.Cross ? "bg-red-200" : "bg-white"
       }`}
       style={{
