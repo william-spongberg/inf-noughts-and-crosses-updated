@@ -21,15 +21,21 @@ export default function Rules() {
           </Text.Paragraph>
           <Text.List>
             <li>
-              The game board can now be infinitely extended!
+              The game board can now be infinitely extended! You can sacrifice a
+              turn to extend the board by a row or column in any direction.
             </li>
             <li>
-              Every move must be vertically or horizontally adjacent to the last
+              You need 4 in a row to win, instead of 3.
+            </li>
+            <li>
+              Every play must be vertically or horizontally adjacent to the last
               one.
             </li>
             <li>
-              You can sacrifice a turn to extend the board by a row or column in
-              any direction.
+              If you cannot play a piece, you lose.
+            </li>
+            <li>
+              You can choose to bank a turn and use it later.
             </li>
           </Text.List>
           <Text.Paragraph>
