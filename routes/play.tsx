@@ -7,9 +7,11 @@ export default function Play() {
   return (
     <>
       <Layout.Page>
-        <InfGrid />
-        <RulesButton />
-        <HomeButton />
+        <div className="w-[90vw] h-[90vh] flex flex-col justify-center items-center">
+          <InfGrid />
+          <RulesButton />
+          <HomeButton />
+        </div>
       </Layout.Page>
     </>
   );

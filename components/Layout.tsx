@@ -112,7 +112,11 @@ export function Header({
           </Text.Title>
         )}
         <div class="ml-auto gap-2 flex">
-          <Button href="https://github.com/william-spongberg/inf-noughts-and-crosses" backgroundColour="bg-white" hoverBackgroundColour="hover:bg-gray-200">
+          <Button
+            href="https://github.com/william-spongberg/inf-noughts-and-crosses"
+            backgroundColour="bg-white"
+            hoverBackgroundColour="hover:bg-gray-200"
+          >
             <Icons.GitHub />
           </Button>
         </div>
@@ -135,7 +139,7 @@ export function Footer({
   isBeta = false,
 }: FooterProps) {
   return (
-    <div class="min-w-max">
+    <div class="w-full">
       <footer
         class={`flex flex-col items-center ${colour} ${textColour}`}
       >

@@ -7,13 +7,20 @@ import {
   firstTurn,
   grid,
 } from "../global/utils.ts";
-import { useEffect, useMemo } from "preact/hooks";
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { Direction, Turn } from "../global/types.ts";
 import { ComponentChildren } from "preact";
 import * as Text from "../components/Text.tsx";
 import * as Layout from "../components/Layout.tsx";
 import { signal } from "@preact/signals";
-import Button from "../components/Button.tsx";
+
+const INITIAL_ZOOM = 100;
+const ZOOM_STEP = 10;
+const MAX_ZOOM = 150;
+const MIN_ZOOM = 50;
+
+const MAX_PADDING = 100;
+const MIN_PADDING = 30;
 
 export default function InfGrid() {
   // TODO: is this the best way of doing this?
@@ -36,34 +43,112 @@ export default function InfGrid() {
 }
 
 function PlayScreen() {
+  const [zoom, setZoom] = useState(INITIAL_ZOOM);
+  const gridContainerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const extend = (dir: Direction) => {
     extendGrid(dir);
   };
 
+  // center grid on extension to ensure it stays in view
+  useEffect(() => {
+    centerGrid();
+  }, [grid.value.minX, grid.value.maxX, grid.value.minY, grid.value.maxY]);
+
+  const centerGrid = () => {
+    if (containerRef.current && gridContainerRef.current) {
+      // find mid left and mid top of grid
+      const scrollLeft = gridContainerRef.current.offsetWidth / 2 -
+        containerRef.current.clientWidth / 2;
+      const scrollTop = gridContainerRef.current.offsetHeight / 2 -
+        containerRef.current.clientHeight / 2;
+
+      // scroll to center
+      containerRef.current.scrollTo({
+        left: scrollLeft,
+        top: scrollTop,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleZoomIn = () => {
+    setZoom((prev) => Math.min(prev + ZOOM_STEP, MAX_ZOOM));
+  };
+
+  const handleZoomOut = () => {
+    setZoom((prev) => Math.max(prev - ZOOM_STEP, MIN_ZOOM));
+  };
+
+  const gridWidth = Math.abs(grid.value.minX) + Math.abs(grid.value.maxX);
+  const gridHeight = Math.abs(grid.value.minY) + Math.abs(grid.value.maxY);
+
+  // change padding based on grid size
+  const gridPadding = Math.max(
+    MIN_PADDING,
+    Math.min(MAX_PADDING, (20 * Math.max(gridWidth, gridHeight)) / 5),
+  );
+
   return (
     <>
-      <div class="p-4 m-4">
+      <div
+        ref={containerRef}
+        className="relative w-full h-full overflow-auto border-2 border-slate-400 rounded-xl"
+      >
         <div
-          class="scale-75 md:scale-90 lg:scale-100 xl:scale-125"
+          className="absolute transform origin-center"
           style={{
-            display: "grid",
-            gridTemplateColumns: `repeat(${
-              Math.abs(grid.value.minX) + Math.abs(grid.value.maxX)
-            }, ${CELL_SIZE}px)`,
-            width: "100%",
-            gap: `${CELL_GAP}px`,
+            transform: `scale(${zoom / 100})`,
+            padding: `${gridPadding}px`,
+            minWidth: "100%",
+            minHeight: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          {Array.from(grid.value.cells.values())
-            .sort((a, b) => a.y - b.y || a.x - b.x)
-            .map((cell) => (
-              <InfCell
-                key={`cell-${cell.x}-${cell.y}-${cell.value}`}
-                {...cell}
-              />
-            ))}
+          <div
+            ref={gridContainerRef}
+            style={{
+              display: "grid",
+              gridTemplateColumns: `repeat(${gridWidth}, ${CELL_SIZE}px)`,
+              gridTemplateRows: `repeat(${gridHeight}, ${CELL_SIZE}px)`,
+              gap: `${CELL_GAP}px`,
+            }}
+          >
+            {Array.from(grid.value.cells.values())
+              .sort((a, b) => a.y - b.y || a.x - b.x)
+              .map((cell) => (
+                <InfCell
+                  key={`cell-${cell.x}-${cell.y}-${cell.value}`}
+                  {...cell}
+                />
+              ))}
+          </div>
         </div>
       </div>
+
+      <div className="fixed top-4 right-4 flex flex-col gap-2 z-10 bg-slate-800 rounded-xl p-2">
+        <button
+          type="button"
+          onClick={handleZoomIn}
+          className="bg-slate-100 hover:bg-slate-400 rounded-xl px-3 py-1 text-2xl"
+        >
+          +
+        </button>
+        <button
+          type="button"
+          onClick={handleZoomOut}
+          className="bg-slate-100 hover:bg-slate-400 rounded-xl px-3 py-1 text-2xl"
+        >
+          -
+        </button>
+        <span className="bg-slate-800 text-white px-2 py-1 rounded-xl">
+          {zoom}%
+        </span>
+      </div>
+
       <CurrentTurn />
       <DirButton
         direction={Direction.Left}
@@ -90,8 +175,6 @@ function PlayScreen() {
   );
 }
 
-
-
 function CurrentTurn() {
   return (
     <div class="bg-slate-800 fixed bottom-10 left-10 rounded-md">
@@ -110,17 +193,21 @@ function DirButton(
   },
 ) {
   const positionStyles = {
-    [Direction.Left]: "fixed top-1/2 left-0 transform -translate-y-1/2",
-    [Direction.Right]: "fixed top-1/2 right-0 transform -translate-y-1/2",
-    [Direction.Up]: "fixed top-0 left-1/2 transform -translate-x-1/2",
-    [Direction.Down]: "fixed bottom-0 left-1/2 transform -translate-x-1/2",
+    [Direction.Left]:
+      "fixed top-1/2 left-0 transform -translate-y-1/2 mx-2 my-auto",
+    [Direction.Right]:
+      "fixed top-1/2 right-0 transform -translate-y-1/2 mx-2 my-auto",
+    [Direction.Up]:
+      "fixed top-0 left-1/2 transform -translate-x-1/2 my-2 mx-auto",
+    [Direction.Down]:
+      "fixed bottom-0 left-1/2 transform -translate-x-1/2 my-2 mx-auto",
   };
 
   return (
     <div
       class={`${
         positionStyles[direction]
-      } bg-slate-200 hover:bg-slate-400 rounded-xl px-3 py-2 m-4 text-5xl`}
+      } bg-white hover:bg-slate-400 rounded-xl px-3 py-2 m-4 text-5xl`}
     >
       <button type="button" onClick={onClick} class="w-full h-full">
         {children}
