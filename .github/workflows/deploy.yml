@@ -29,6 +29,8 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "infinitenoughts"
+          project: "noughts-updated"
           entrypoint: "main.ts"
           root: "."
+          
+          
