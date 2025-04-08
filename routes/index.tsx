@@ -5,7 +5,7 @@ import * as Text from "../components/Text.tsx";
 export default function Home() {
   return (
     <>
-      <Layout.Header title="Infinite Noughts and Crosses" />
+      <Layout.Header />
 
       <Layout.Page>
         <Button href="/play">

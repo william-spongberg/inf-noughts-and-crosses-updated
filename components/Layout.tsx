@@ -106,19 +106,25 @@ export function Header({
       <header
         className={`flex items-center justify-start ${colour} pb-2 px-4 pt-4`}
       >
-        {title && (
-          <Text.Title textColour={textColour}>
-            {title}
-          </Text.Title>
-        )}
+        {title
+          ? (
+            <Text.Title textColour={textColour}>
+              {title}
+            </Text.Title>
+          )
+          : (
+            <Text.Title textColour={textColour}>
+              Infinite <div class="text-red-400 inline">Noughts</div> and
+              <div class="text-blue-400 inline">{" "}Crosses</div>
+            </Text.Title>
+          )}
         <div class="ml-auto gap-2 flex">
-          <Button
-            href="https://github.com/william-spongberg/inf-noughts-and-crosses"
-            backgroundColour="bg-white"
-            hoverBackgroundColour="hover:bg-gray-200"
+          <a
+            href="https://github.com/william-spongberg/inf-noughts-and-crosses-updated"
+            className="hover:bg-gray-700 rounded-full p-2"
           >
             <Icons.GitHub />
-          </Button>
+          </a>
         </div>
       </header>
     </>
