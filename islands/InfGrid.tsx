@@ -1,11 +1,16 @@
 import { CELL_GAP, CELL_SIZE } from "../global/constants.ts";
 import InfCell from "./InfCell.tsx";
 import {
+  bankCountO,
+  bankCountX,
+  bankTurn,
   checkGameOver,
   currentTurn,
   extendGrid,
   firstTurn,
   grid,
+  useBankedTurn,
+  usingBankedTurn,
 } from "../global/utils.ts";
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { Direction, Turn } from "../global/types.ts";
@@ -23,7 +28,6 @@ const MAX_PADDING = 100;
 const MIN_PADDING = 30;
 
 export default function InfGrid() {
-  // TODO: is this the best way of doing this?
   const gameOver = useMemo(() => signal(false), []);
 
   // check for win on new turn
@@ -47,10 +51,6 @@ function PlayScreen() {
   const gridContainerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const extend = (dir: Direction) => {
-    extendGrid(dir);
-  };
-
   // center grid on extension to ensure it stays in view
   useEffect(() => {
     centerGrid();
@@ -73,22 +73,35 @@ function PlayScreen() {
     }
   };
 
+  // hooks
+  const extend = (dir: Direction) => {
+    extendGrid(dir);
+  };
   const handleZoomIn = () => {
     setZoom((prev) => Math.min(prev + ZOOM_STEP, MAX_ZOOM));
   };
-
   const handleZoomOut = () => {
     setZoom((prev) => Math.max(prev - ZOOM_STEP, MIN_ZOOM));
   };
+  const handleBankTurn = () => {
+    bankTurn();
+  };
+  const handleUseBankedTurn = () => {
+    useBankedTurn();
+  };
 
+  // calculate grid size and padding
   const gridWidth = Math.abs(grid.value.minX) + Math.abs(grid.value.maxX);
   const gridHeight = Math.abs(grid.value.minY) + Math.abs(grid.value.maxY);
-
-  // change padding based on grid size
   const gridPadding = Math.max(
     MIN_PADDING,
     Math.min(MAX_PADDING, (20 * Math.max(gridWidth, gridHeight)) / 5),
   );
+
+  // count number of banked turns for current player
+  const currentPlayerBankedTurns = currentTurn.value === Turn.Nought
+    ? bankCountO.value
+    : bankCountX.value;
 
   return (
     <>
@@ -149,7 +162,35 @@ function PlayScreen() {
         </span>
       </div>
 
+      <div className="fixed top-4 left-4 flex flex-col gap-2 z-10 bg-slate-800 rounded-xl p-2">
+        <button
+          type="button"
+          onClick={handleBankTurn}
+          disabled={usingBankedTurn.value}
+          className={`${
+            usingBankedTurn.value
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-orange-500 hover:bg-orange-700"
+          } text-white text-md font-bold rounded-xl px-3 py-2`}
+        >
+          Bank Turn
+        </button>
+        <button
+          type="button"
+          onClick={handleUseBankedTurn}
+          disabled={currentPlayerBankedTurns === 0 || usingBankedTurn.value}
+          className={`${
+            currentPlayerBankedTurns > 0 && !usingBankedTurn.value
+              ? "bg-green-500 hover:bg-green-700"
+              : "bg-gray-500 cursor-not-allowed"
+          } text-white text-md font-bold rounded-xl px-3 py-2`}
+        >
+          Use Bank ({currentPlayerBankedTurns})
+        </button>
+      </div>
+
       <CurrentTurn />
+      <BankedTurnsDisplay />
       <DirButton
         direction={Direction.Left}
         onClick={() => extend(Direction.Left)}
@@ -179,8 +220,41 @@ function CurrentTurn() {
   return (
     <div class="bg-slate-800 fixed bottom-0 left-0 m-4 rounded-md">
       <Text.Heading>
-        {currentTurn.value == Turn.Nought ? "O's Turn" : "X's Turn"}
+        {currentTurn.value == Turn.Nought
+          ? (
+            <>
+              <div class="text-red-400 inline">O's</div> Turn
+            </>
+          )
+          : (
+            <>
+              <div class="text-blue-400 inline">X's</div> Turn
+            </>
+          )}
+        {usingBankedTurn.value && (
+          <span class="text-green-400 ml-2">(Extra Turn)</span>
+        )}
       </Text.Heading>
+    </div>
+  );
+}
+
+function BankedTurnsDisplay() {
+  return (
+    <div class="bg-slate-800 fixed bottom-16 left-0 m-4 rounded-md px-2">
+      <Text.SubHeading>
+        Banked Turns:
+      </Text.SubHeading>
+      <div class="flex justify-between gap-4">
+        <div class="flex items-center">
+          <span class="text-blue-400 font-bold text-xl mr-1">O:</span>
+          <span class="text-white">{bankCountO.value}</span>
+        </div>
+        <div class="flex items-center">
+          <span class="text-red-400 font-bold text-xl mr-1">X:</span>
+          <span class="text-white">{bankCountX.value}</span>
+        </div>
+      </div>
     </div>
   );
 }
