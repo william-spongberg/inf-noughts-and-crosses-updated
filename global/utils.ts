@@ -8,12 +8,55 @@ export const currentCell = signal<Cell>(DEFAULT_CELL);
 export const grid = signal<Grid>(DEFAULT_GRID);
 export const validCells = signal<string[]>([]);
 export const firstTurn = signal<boolean>(true);
+export const bankCountX = signal<number>(0);
+export const bankCountO = signal<number>(0);
+export const usingBankedTurn = signal<boolean>(false);
 
 export function changeTurn() {
+  // don't change turn if using banked turn
+  if (usingBankedTurn.value) {
+    usingBankedTurn.value = false;
+    return;
+  }
+
   if (currentTurn.value === Turn.Nought) {
     currentTurn.value = Turn.Cross;
   } else {
     currentTurn.value = Turn.Nought;
+  }
+}
+
+// bank a turn for later use
+export function bankTurn() {
+  // update banked count
+  if (currentTurn.value === Turn.Nought) {
+    bankCountO.value++;
+  } else {
+    bankCountX.value++;
+  }
+
+  changeTurn();
+
+  // if not first turn, ensure valid cells are updated
+  if (!firstTurn.value) {
+    updateValidCells(currentCell.value.x, currentCell.value.y);
+  }
+}
+
+// use banked turn instead
+export function useBankedTurn() {
+  const hasBankedTurns = currentTurn.value === Turn.Nought
+    ? bankCountO.value > 0
+    : bankCountX.value > 0;
+
+  if (hasBankedTurns) {
+    if (currentTurn.value === Turn.Nought) {
+      bankCountO.value--;
+    } else {
+      bankCountX.value--;
+    }
+
+    usingBankedTurn.value = true;
   }
 }
 
@@ -96,26 +139,33 @@ export function extendGrid(dir: Direction) {
   grid.value = newGrid;
   console.log(grid.value);
 
-  // change turn, also update valid cells
-  changeTurn();
+  // if using banked turn, don't change turn
+  if (usingBankedTurn.value) {
+    usingBankedTurn.value = false;
+  } else {
+    changeTurn();
+  }
+
   updateValidCells(currentCell.value.x, currentCell.value.y);
 }
 
 // check if game over
 export function checkGameOver(): boolean {
+  const WIN_LENGTH = 4;
+  const INAROW = WIN_LENGTH - 1;
+
   const { x: currX, y: currY, value: currValue } = currentCell.value;
   console.log(`cell at ${currX}, ${currY} set to ${currValue}`);
 
-  // TODO: doesn't currently check for no moves and trapped in a circle of cells
-  // check available moves, if none game over
-  // if (validCells.value.length === 0) {
-  //   return true;
-  // }
+  // check available moves - if none game over
+  if (validCells.value.length === 0) {
+    return true;
+  }
 
   // count matching cells in a direction
   const countInDirection = (dirX: number, dirY: number): number => {
     let count = 0;
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= INAROW; i++) {
       const cell = grid.value.cells.get(
         `${currX + dirX * i}-${currY + dirY * i}`,
       );
@@ -132,22 +182,22 @@ export function checkGameOver(): boolean {
   // if any more than 2 is win (since include current cell)
 
   // check left and right
-  if (countInDirection(-1, 0) + countInDirection(1, 0) >= 2) {
+  if (countInDirection(-1, 0) + countInDirection(1, 0) >= INAROW) {
     return true;
   }
 
   // check up and down
-  if (countInDirection(0, -1) + countInDirection(0, 1) >= 2) {
+  if (countInDirection(0, -1) + countInDirection(0, 1) >= INAROW) {
     return true;
   }
 
   // check top-left to bottom-right
-  if (countInDirection(-1, -1) + countInDirection(1, 1) >= 2) {
+  if (countInDirection(-1, -1) + countInDirection(1, 1) >= INAROW) {
     return true;
   }
 
   // check top-right to bottom-left
-  if (countInDirection(1, -1) + countInDirection(-1, 1) >= 2) {
+  if (countInDirection(1, -1) + countInDirection(-1, 1) >= INAROW) {
     return true;
   }
 
